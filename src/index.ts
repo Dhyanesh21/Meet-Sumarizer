@@ -1,14 +1,8 @@
-import { Builder, Browser, By, Key, until } from 'selenium-webdriver';
-import { Options }from 'selenium-webdriver/chrome';
+import { Builder, Browser, By, Key, until, WebDriver } from 'selenium-webdriver';
+import { Driver, Options }from 'selenium-webdriver/chrome';
 
-async function main() {
-  const options = new Options({})
-  options.addArguments("--disable-blink-features=AutomationControlled");
-  options.addArguments("--use-fake-ui-for-media-stream");
-  //options.addArguments("--disable-gpu");
-
-
-  let driver = await new Builder().forBrowser(Browser.CHROME).setChromeOptions(options).build();
+async function openMeet(driver: WebDriver) {
+  
   try {
     await driver.get('https://meet.google.com/vgm-pwko-qqm');
     
@@ -37,4 +31,23 @@ async function main() {
   }  
 }
 
+async function getDriver(){
+  const options = new Options({})
+  options.addArguments("--disable-blink-features=AutomationControlled");
+  options.addArguments("--use-fake-ui-for-media-stream");
+  //options.addArguments("--disable-gpu");
+  let driver = await new Builder().forBrowser(Browser.CHROME).setChromeOptions(options).build();
+  return driver;
+}
+
+function startScreenshare() {
+  // TODO: implement startScreenshare function
+}
+
+async function main(){
+  const driver = await getDriver();
+  await openMeet(driver);
+  //wait until admin lets u join
+  await startScreenshare(driver);
+}
 main();
